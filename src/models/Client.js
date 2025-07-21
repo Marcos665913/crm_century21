@@ -1,3 +1,4 @@
+// C:\Users\lamam\OneDrive\Escritorio\BACKEND\src\models\Client.js
 const mongoose = require('mongoose');
 
 // --- NUEVAS LISTAS DE OPCIONES ---
@@ -26,6 +27,10 @@ const clientSchema = new mongoose.Schema({
     correo: { type: String, required: false, default: '' },
     
     asunto: { type: String, required: true, enum: asuntoEnum },
+    // --- INICIO DE NUEVOS CAMPOS: ID y ID Relacionados ---
+    idOperacion: { type: String, required: false, default: '' }, // Nuevo campo "ID"
+    idsRelacionados: { type: String, required: false, default: '' }, // Nuevo campo "ID Relacionados"
+    // --- FIN DE NUEVOS CAMPOS ---
     tipoInmueble: { type: String, required: false, enum: tipoInmuebleEnum },
     origen: { type: String, required: true, enum: origenEnum },
     estatus: { type: String, required: true, enum: estatusEnum, default: 'SIN COMENZAR' },
@@ -50,8 +55,5 @@ const clientSchema = new mongoose.Schema({
     required: true
   }
 }, { timestamps: true });
-
-// Ya no necesitamos la validación compleja de tipoPago aquí, 
-// la manejaremos en el frontend para una mejor experiencia de usuario.
 
 module.exports = mongoose.model('Client', clientSchema);
