@@ -4,7 +4,6 @@ const CustomField = require('../models/CustomField');
 const xlsx = require('xlsx'); 
 const jwt = require('jsonwebtoken'); 
 
-// Obtener clientes (sin cambios)
 exports.getClients = async (req, res) => {
   try {
     let clients;
@@ -19,7 +18,6 @@ exports.getClients = async (req, res) => {
   }
 };
 
-// --- FUNCIÓN MODIFICADA: generateExportUrl ---
 exports.generateExportUrl = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -42,7 +40,6 @@ exports.generateExportUrl = async (req, res, next) => {
   }
 };
 
-// --- FUNCIÓN MODIFICADA: exportClients ---
 exports.exportClients = async (req, res, next) => {
   try {
     const downloadToken = req.query.token; 
@@ -85,16 +82,15 @@ exports.exportClients = async (req, res, next) => {
         'TELEFONO': client.fields.telefono,
         'CORREO': client.fields.correo,
         'ASUNTO': client.fields.asunto,
-        // --- INICIO DE NUEVOS CAMPOS EN EXCEL ---
-        'ID OPERACION': client.fields.idOperacion || '', // Nuevo campo "ID"
-        'IDS RELACIONADOS': client.fields.idsRelacionados || '', // Nuevo campo "ID Relacionados"
-        // --- FIN DE NUEVOS CAMPOS EN EXCEL ---
+        'ID OPERACION': client.fields.idOperacion || '', 
+        'IDS RELACIONADOS': client.fields.idsRelacionados || '', 
         'TIPO DE INMUEBLE': client.fields.tipoInmueble,
         'ORIGEN': client.fields.origen,
         'ESTATUS': client.fields.estatus,
         'SEGUIMIENTO': client.fields.seguimiento,
         'PRESUPUESTO': client.fields.presupuesto,
-        'TIPO DE PAGO': client.fields.tipoPago,
+        // MODIFICACIÓN: Asegurarse de que el nuevo tipo de pago se incluya en el Excel
+        'TIPO DE PAGO': client.fields.tipoPago, 
         'ZONA': client.fields.zona,
         'ESPECIFICACIONES': client.fields.especificaciones,
         'OBSERVACIONES': client.fields.observaciones,
@@ -127,7 +123,6 @@ exports.exportClients = async (req, res, next) => {
   }
 };
 
-// Agregar cliente (sin cambios)
 exports.addClient = async (req, res, next) => {
   try {
     const { fields, customFieldsData } = req.body;
@@ -155,7 +150,6 @@ exports.addClient = async (req, res, next) => {
   }
 };
 
-// Actualizar cliente (sin cambios)
 exports.updateClient = async (req, res, next) => {
     try {
         const { fields, customFieldsData } = req.body;
@@ -177,7 +171,6 @@ exports.updateClient = async (req, res, next) => {
     }
 };
 
-// Eliminar cliente (sin cambios)
 exports.deleteClient = async (req, res) => {
   try {
     const client = await Client.findById(req.params.id);
@@ -197,7 +190,6 @@ exports.deleteClient = async (req, res) => {
   }
 };
 
-// Eliminar campos específicos de un cliente (sin cambios)
 exports.deleteClientFields = async (req, res) => {
   try {
     if (req.user.role !== 'master') {

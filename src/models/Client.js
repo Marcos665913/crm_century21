@@ -1,10 +1,10 @@
-// C:\Users\lamam\OneDrive\Escritorio\BACKEND\src\models\Client.js
 const mongoose = require('mongoose');
 
 // --- NUEVAS LISTAS DE OPCIONES ---
 const asuntoEnum = ['COMPRA', 'VENTA', 'RENTA', 'DAR A RENTA', 'ASESOR EXTERNO', 'ASESORIA'];
 const tipoInmuebleEnum = ['CASA', 'DEPARTAMENTO', 'BODEGA', 'TERRENO', 'LOCAL', 'NAVE INDUSTRIAL'];
-const tipoPagoEnum = ['EFECTIVO', 'BANCARIO', 'INFONAVIT', 'FOVISSTE'];
+// MODIFICACIÓN: Añadir 'PRECIO TENTATIVO' a tipoPagoEnum
+const tipoPagoEnum = ['EFECTIVO', 'BANCARIO', 'INFONAVIT', 'FOVISSTE', 'PRECIO TENTATIVO'];
 const origenEnum = [
     'AMIGO/CONOCIDO', 'ESFERA DE INFLUENCIA', 'LONAS O ROTULO', 'TARJETAS', 
     'WHATSAPP', 'FACEBOOK', 'PAGINA WEB C21 GLOBAL', 'PROPIEDADES.COM', 
@@ -27,10 +27,8 @@ const clientSchema = new mongoose.Schema({
     correo: { type: String, required: false, default: '' },
     
     asunto: { type: String, required: true, enum: asuntoEnum },
-    // --- INICIO DE NUEVOS CAMPOS: ID y ID Relacionados ---
-    idOperacion: { type: String, required: false, default: '' }, // Nuevo campo "ID"
-    idsRelacionados: { type: String, required: false, default: '' }, // Nuevo campo "ID Relacionados"
-    // --- FIN DE NUEVOS CAMPOS ---
+    idOperacion: { type: String, required: false, default: '' }, 
+    idsRelacionados: { type: String, required: false, default: '' }, 
     tipoInmueble: { type: String, required: false, enum: tipoInmuebleEnum },
     origen: { type: String, required: true, enum: origenEnum },
     estatus: { type: String, required: true, enum: estatusEnum, default: 'SIN COMENZAR' },
@@ -38,7 +36,7 @@ const clientSchema = new mongoose.Schema({
     seguimiento: { type: String, required: false, default: '' },
     
     presupuesto: { type: Number, required: true },
-    tipoPago: { type: String, required: true, enum: tipoPagoEnum },
+    tipoPago: { type: String, required: true, enum: tipoPagoEnum }, // Este campo usa el enum modificado
     zona: { type: String, required: false, default: '' },
     
     especificaciones: { type: String, required: false, default: '' },
