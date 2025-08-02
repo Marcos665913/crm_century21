@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-
 const asuntoEnum = ['COMPRA', 'VENTA', 'RENTA', 'DAR A RENTA', 'ASESOR EXTERNO', 'ASESORIA'];
 const tipoInmuebleEnum = ['CASA', 'DEPARTAMENTO', 'BODEGA', 'TERRENO', 'LOCAL', 'NAVE INDUSTRIAL'];
-const tipoPagoEnum = ['EFECTIVO', 'BANCARIO', 'INFONAVIT', 'FOVISSTE', 'PRECIO TENTATIVO'];
+const tipoPagoEnum = ['EFECTIVO', 'BANCARIO', 'INFONAVIT', 'FOVISSTE', 'N/A'];
 const origenEnum = [
     'AMIGO/CONOCIDO', 'ESFERA DE INFLUENCIA', 'LONAS O ROTULO', 'TARJETAS',
     'WHATSAPP', 'FACEBOOK', 'PAGINA WEB C21 GLOBAL', 'PROPIEDADES.COM',
@@ -14,7 +13,6 @@ const estatusEnum = [
     'SIN COMENZAR', 'INICIADO', 'EN CURSO', 'COMPLETADO',
     'STANDBY (EN ESPERA)', 'CANCELADO', 'RECHAZADO', 'CITADO', 'SIN RESPUESTA'
 ];
-
 const clientSchema = new mongoose.Schema({
   fields: {
     fechaContacto: { type: Date, default: Date.now },
@@ -51,5 +49,4 @@ const clientSchema = new mongoose.Schema({
     required: true
   }
 }, { timestamps: true });
-
 module.exports = mongoose.model('Client', clientSchema);
