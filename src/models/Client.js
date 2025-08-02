@@ -1,24 +1,22 @@
 const mongoose = require('mongoose');
 
-// --- NUEVAS LISTAS DE OPCIONES ---
 const asuntoEnum = ['COMPRA', 'VENTA', 'RENTA', 'DAR A RENTA', 'ASESOR EXTERNO', 'ASESORIA'];
 const tipoInmuebleEnum = ['CASA', 'DEPARTAMENTO', 'BODEGA', 'TERRENO', 'LOCAL', 'NAVE INDUSTRIAL'];
-// MODIFICACIÓN: Añadir 'PRECIO TENTATIVO' a tipoPagoEnum
 const tipoPagoEnum = ['EFECTIVO', 'BANCARIO', 'INFONAVIT', 'FOVISSTE', 'PRECIO TENTATIVO'];
 const origenEnum = [
-    'AMIGO/CONOCIDO', 'ESFERA DE INFLUENCIA', 'LONAS O ROTULO', 'TARJETAS', 
-    'WHATSAPP', 'FACEBOOK', 'PAGINA WEB C21 GLOBAL', 'PROPIEDADES.COM', 
-    'INMUEBLES 24', 'C21 MEXICO', 'INSTAGRAM', 'GOOGLE ADS', 'TIK TOK', 
-    'YOUTUBE', 'TELEFONO OFICINA'
+    'AMIGO/CONOCIDO', 'ESFERA DE INFLUENCIA', 'LONAS O ROTULO', 'TARJETAS',
+    'WHATSAPP', 'FACEBOOK', 'PAGINA WEB C21 GLOBAL', 'PROPIEDADES.COM',
+    'INMUEBLES 24', 'C21 MEXICO', 'INSTAGRAM', 'GOOGLE ADS', 'TIK TOK',
+    'YOUTUBE', 'TELEFONO OFICINA',
+    'FACEBOOK PERSONAL', 'MARKET PLACE', 'GUARDIA'
 ];
 const estatusEnum = [
-    'SIN COMENZAR', 'INICIADO', 'EN CURSO', 'COMPLETADO', 
+    'SIN COMENZAR', 'INICIADO', 'EN CURSO', 'COMPLETADO',
     'STANDBY (EN ESPERA)', 'CANCELADO', 'RECHAZADO', 'CITADO', 'SIN RESPUESTA'
 ];
 
 const clientSchema = new mongoose.Schema({
   fields: {
-    // --- CAMPOS ACTUALIZADOS Y NUEVOS ---
     fechaContacto: { type: Date, default: Date.now },
     fechaAsignacion: { type: Date, default: Date.now },
     
@@ -27,8 +25,8 @@ const clientSchema = new mongoose.Schema({
     correo: { type: String, required: false, default: '' },
     
     asunto: { type: String, required: true, enum: asuntoEnum },
-    idOperacion: { type: String, required: false, default: '' }, 
-    idsRelacionados: { type: String, required: false, default: '' }, 
+    idOperacion: { type: String, required: false, default: '' },
+    idsRelacionados: { type: String, required: false, default: '' },
     tipoInmueble: { type: String, required: false, enum: tipoInmuebleEnum },
     origen: { type: String, required: true, enum: origenEnum },
     estatus: { type: String, required: true, enum: estatusEnum, default: 'SIN COMENZAR' },
@@ -36,7 +34,7 @@ const clientSchema = new mongoose.Schema({
     seguimiento: { type: String, required: false, default: '' },
     
     presupuesto: { type: Number, required: true },
-    tipoPago: { type: String, required: true, enum: tipoPagoEnum }, // Este campo usa el enum modificado
+    tipoPago: { type: String, required: true, enum: tipoPagoEnum },
     zona: { type: String, required: false, default: '' },
     
     especificaciones: { type: String, required: false, default: '' },

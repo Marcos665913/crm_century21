@@ -1,8 +1,7 @@
-// src/controllers/clientController.js
 const Client = require('../models/Client');
-const CustomField = require('../models/CustomField'); 
-const xlsx = require('xlsx'); 
-const jwt = require('jsonwebtoken'); 
+const CustomField = require('../models/CustomField');
+const xlsx = require('xlsx');
+const jwt = require('jsonwebtoken');
 
 exports.getClients = async (req, res) => {
   try {
@@ -26,23 +25,22 @@ exports.generateExportUrl = async (req, res, next) => {
     const downloadPayload = { id: userId, role: userRole, purpose: 'file_download' };
     const downloadToken = jwt.sign(downloadPayload, process.env.JWT_SECRET, { expiresIn: '30s' });
 
-    const publicBaseUrl = process.env.RENDER_EXTERNAL_HOSTNAME 
-                          ? `https://${process.env.RENDER_EXTERNAL_HOSTNAME}/api` 
-                          : 'https://crm-century21.onrender.com/api'; 
+    const publicBaseUrl = process.env.RENDER_EXTERNAL_HOSTNAME
+                            ? `https://${process.env.RENDER_EXTERNAL_HOSTNAME}/api`
+                            : 'https://crm-century21.onrender.com/api';
 
     const exportUrl = `${publicBaseUrl}/clients/export?token=${downloadToken}`;
 
     res.status(200).json({ downloadUrl: exportUrl });
 
   } catch (error) {
-    console.error('Error al generar URL de exportación:', error);
     next(error);
   }
 };
 
 exports.exportClients = async (req, res, next) => {
   try {
-    const downloadToken = req.query.token; 
+    const downloadToken = req.query.token;
     if (!downloadToken) {
       return res.status(401).json({ mensaje: 'Token de descarga no proporcionado.' });
     }
@@ -82,15 +80,14 @@ exports.exportClients = async (req, res, next) => {
         'TELEFONO': client.fields.telefono,
         'CORREO': client.fields.correo,
         'ASUNTO': client.fields.asunto,
-        'ID OPERACION': client.fields.idOperacion || '', 
-        'IDS RELACIONADOS': client.fields.idsRelacionados || '', 
+        'ID OPERACION': client.fields.idOperacion || '',
+        'IDS RELACIONADOS': client.fields.idsRelacionados || '',
         'TIPO DE INMUEBLE': client.fields.tipoInmueble,
         'ORIGEN': client.fields.origen,
         'ESTATUS': client.fields.estatus,
         'SEGUIMIENTO': client.fields.seguimiento,
         'PRESUPUESTO': client.fields.presupuesto,
-        // MODIFICACIÓN: Asegurarse de que el nuevo tipo de pago se incluya en el Excel
-        'TIPO DE PAGO': client.fields.tipoPago, 
+        'TIPO DE PAGO': client.fields.tipoPago,
         'ZONA': client.fields.zona,
         'ESPECIFICACIONES': client.fields.especificaciones,
         'OBSERVACIONES': client.fields.observaciones,
@@ -99,9 +96,9 @@ exports.exportClients = async (req, res, next) => {
 
       customFieldKeys.forEach((key, index) => {
         const headerName = customFieldHeaders[index];
-        row[headerName] = client.customFieldsData && typeof client.customFieldsData.get === 'function' 
-                          ? client.customFieldsData.get(key) || '' 
-                          : client.customFieldsData[key] || ''; 
+        row[headerName] = client.customFieldsData && typeof client.customFieldsData.get === 'function'
+                            ? client.customFieldsData.get(key) || ''
+                            : client.customFieldsData[key] || '';
       });
 
       return row;
@@ -118,7 +115,6 @@ exports.exportClients = async (req, res, next) => {
     res.status(200).send(buffer);
 
   } catch (error) {
-    console.error('Error al exportar clientes:', error); 
     next(error);
   }
 };
@@ -146,7 +142,7 @@ exports.addClient = async (req, res, next) => {
     if (error.code === 11000) {
        return res.status(409).json({ mensaje: 'Ya existe un cliente con ese nombre o teléfono.' });
     }
-    next(error); 
+    next(error);
   }
 };
 
@@ -185,7 +181,6 @@ exports.deleteClient = async (req, res) => {
     await client.deleteOne();
     res.json({ mensaje: 'Cliente eliminado' });
   } catch (error) {
-    console.error('Error al eliminar cliente:', error);
     res.status(500).json({ mensaje: 'Error del servidor' });
   }
 };
@@ -213,7 +208,6 @@ exports.deleteClientFields = async (req, res) => {
     await client.save();
     res.json({ mensaje: 'Campos eliminados correctamente', client });
   } catch (error) {
-    console.error('Error al eliminar campos de cliente:', error);
     res.status(500).json({ mensaje: 'Error del servidor' });
   }
 };
