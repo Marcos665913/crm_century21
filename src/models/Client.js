@@ -1,18 +1,20 @@
 const mongoose = require('mongoose');
+
 const asuntoEnum = ['COMPRA', 'VENTA', 'RENTA', 'DAR A RENTA', 'ASESOR EXTERNO', 'ASESORIA'];
 const tipoInmuebleEnum = ['CASA', 'DEPARTAMENTO', 'BODEGA', 'TERRENO', 'LOCAL', 'NAVE INDUSTRIAL'];
 const tipoPagoEnum = ['EFECTIVO', 'BANCARIO', 'INFONAVIT', 'FOVISSTE', 'N/A'];
 const origenEnum = [
-    'AMIGO/CONOCIDO', 'ESFERA DE INFLUENCIA', 'LONAS O ROTULO', 'TARJETAS',
-    'WHATSAPP', 'FACEBOOK', 'PAGINA WEB C21 GLOBAL', 'PROPIEDADES.COM',
-    'INMUEBLES 24', 'C21 MEXICO', 'INSTAGRAM', 'GOOGLE ADS', 'TIK TOK',
+    'AMIGO/CONOCIDO', 'ESFERA DE INFLUENCIA', 'LONAS O ROTULO', 'TARJETAS', 
+    'WHATSAPP', 'FACEBOOK', 'PAGINA WEB C21 GLOBAL', 'PROPIEDADES.COM', 
+    'INMUEBLES 24', 'C21 MEXICO', 'INSTAGRAM', 'GOOGLE ADS', 'TIK TOK', 
     'YOUTUBE', 'TELEFONO OFICINA',
     'FACEBOOK PERSONAL', 'MARKET PLACE', 'GUARDIA'
 ];
 const estatusEnum = [
-    'SIN COMENZAR', 'INICIADO', 'EN CURSO', 'COMPLETADO',
+    'SIN COMENZAR', 'INICIADO', 'EN CURSO', 'COMPLETADO', 
     'STANDBY (EN ESPERA)', 'CANCELADO', 'RECHAZADO', 'CITADO', 'SIN RESPUESTA'
 ];
+
 const clientSchema = new mongoose.Schema({
   fields: {
     fechaContacto: { type: Date, default: Date.now },
@@ -23,8 +25,8 @@ const clientSchema = new mongoose.Schema({
     correo: { type: String, required: false, default: '' },
     
     asunto: { type: String, required: true, enum: asuntoEnum },
-    idOperacion: { type: String, required: false, default: '' },
-    idsRelacionados: { type: String, required: false, default: '' },
+    idOperacion: { type: String, required: false, default: '' }, 
+    idsRelacionados: { type: String, required: false, default: '' }, 
     tipoInmueble: { type: String, required: false, enum: tipoInmuebleEnum },
     origen: { type: String, required: true, enum: origenEnum },
     estatus: { type: String, required: true, enum: estatusEnum, default: 'SIN COMENZAR' },
@@ -32,6 +34,9 @@ const clientSchema = new mongoose.Schema({
     seguimiento: { type: String, required: false, default: '' },
     
     presupuesto: { type: Number, required: true },
+    // NUEVO CAMPO: Precio Sugerido
+    precioSugerido: { type: Number, required: false, default: 0 },
+    // FIN NUEVO CAMPO
     tipoPago: { type: String, required: true, enum: tipoPagoEnum },
     zona: { type: String, required: false, default: '' },
     
@@ -49,4 +54,5 @@ const clientSchema = new mongoose.Schema({
     required: true
   }
 }, { timestamps: true });
+
 module.exports = mongoose.model('Client', clientSchema);
